@@ -3,6 +3,29 @@
 * {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="8" fill="none" stroke="%23C94B00" stroke-width="3"/><circle cx="16" cy="16" r="2"/></svg>') 16 16, auto;
 }
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #120702;   /* dark background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #C94B00, #EF9F27);
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(201, 75, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #e25b00, #ffb347);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #C94B00 #120702;
+}
 
 html,
 body {
