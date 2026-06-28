@@ -52,7 +52,7 @@
         
         <div class="right-header">
             <h5 class="address">📍 New Delhi, Delhi</h5>
-            <button class="btn cart">🛒 Cart (2)</button>
+            <button class="btn cart" onclick="window.location='/cart.html'">🛒 Cart (<span class="cart-count">0</span>)</button>
         </div>
     </header>
 
@@ -120,7 +120,7 @@
                     <div class="reedem-emoji">🎁</div>
                     <div class="reedem-code">
                         <p class="reedem-para">First Order? Use Code</p>
-                        <h1 class="redcode">EMBER03 - 30% off</h1>
+                        <h1 class="redcode">EMBER30 - 30% off</h1>
                     </div>
                 </div>
                 <button class="red-claim">Claim now</button>
@@ -132,7 +132,7 @@
                 <a href="#" class="menu-see-all">See all <i class="ti ti-arrow-right"></i></a>
             </div>
             <div class="menu-div-bottom">
-                <div class="menu-cards">
+                <div class="menu-cards" data-id="1" data-name="Rogan Josh" data-chef="Chef Arif • Kashmiri" data-price="380" data-emoji="🍱">
                     <div class="menu-card-img" id="menu-card-img-1">🍱</div>
                     <div class="menu-card-tag">Best Saller</div>
                     <div class="card-bottom-container">
@@ -147,11 +147,11 @@
                             <h1 class="dish-price">₹380</h1>
                             <p class="dish-rating"><span>⭐</span> 4.9 • 212 orders</p>
                         </div>
-                        <button class="add-to-cart"><i class="ti ti-plus">hi </i>Add</button>
+                        <button class="add-to-cart"><i class="ti ti-plus"></i>Add</button>
                     </div>
                     </div>
                 </div>
-                <div class="menu-cards">
+                <div class="menu-cards" data-id="2" data-name="Dal Baati Churma" data-chef="Chef Meera • Rajasthani" data-price="290" data-emoji="🍤">
                     <div class="menu-card-img" id="menu-card-img-2">🍤</div>
                     <div class="menu-card-tag">Heritage</div>
                     <div class="card-bottom-container">
@@ -166,11 +166,11 @@
                             <h1 class="dish-price">₹290</h1>
                             <p class="dish-rating"><span>⭐</span> 4.8 • 189 orders</p>
                         </div>
-                        <button class="add-to-cart"><i class="ti ti-plus">hi </i>Add</button>
+                        <button class="add-to-cart"><i class="ti ti-plus"></i>Add</button>
                     </div>
                     </div>
                 </div>
-                <div class="menu-cards">
+                <div class="menu-cards" data-id="3" data-name="Koliwada Prawns" data-chef="Chef Deepak • Coastal" data-price="460" data-emoji="🍲">
                     <div class="menu-card-img" id="menu-card-img-3">🍲</div>
                     <div class="menu-card-tag">Fresh Catch</div>
                     <div class="card-bottom-container">
@@ -186,7 +186,7 @@
                             <h1 class="dish-price">₹460</h1>
                             <p class="dish-rating"><span>⭐</span> 4.7 • 143 orders</p>
                         </div>
-                        <button class="add-to-cart"><i class="ti ti-plus">hi </i>Add</button>
+                        <button class="add-to-cart"><i class="ti ti-plus"></i>Add</button>
                     </div>
                     </div>
                 </div>
@@ -213,20 +213,98 @@
      </footer>
 
     <script>
-        const crsr = document.getElementById("cursor");
+      // Custom cursor (desktop only)
+      const crsr = document.getElementById("cursor");
+      if (crsr && window.matchMedia("(min-width: 1025px)").matches) {
+        document.addEventListener("pointermove", (e) => {
+          crsr.style.transform = `translate(${e.clientX + 12.4}px, ${e.clientY + 12.4}px)`;
+        });
+      }
 
-document.addEventListener("pointermove", (e) => {
-  crsr.style.transform = `translate(${e.clientX+12.4}px, ${e.clientY+12.4}px)`;
-});
+      // Hamburger
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobile-menu");
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("open");
+        mobileMenu.classList.toggle("open");
+      });
+      mobileMenu.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileMenu.classList.remove("open");
+        })
+      );
 
-// Hamburger Menu
-const hamburger = document.getElementById("hamburger");
-const mobileMenu = document.getElementById("mobile-menu");
+      // Cart state
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const saveCart = () => localStorage.setItem("cart", JSON.stringify(cart));
+      const updateCount = () => {
+        const n = cart.reduce((s, i) => s + i.qty, 0);
+        document.querySelectorAll(".cart-count").forEach((el) => (el.textContent = n));
+      };
+      updateCount();
 
-hamburger.addEventListener("click", () => {
-  hamburger.classList.toggle("open");
-  mobileMenu.classList.toggle("open");
-});
+      // Toast
+      const toast = document.createElement("div");
+      toast.style.cssText =
+        "position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#C94B00;color:#fff;padding:12px 22px;border-radius:24px;font-weight:600;z-index:9999;transition:transform .3s ease;box-shadow:0 10px 40px rgba(201,75,0,.4);";
+      document.body.appendChild(toast);
+      const showToast = (msg) => {
+        toast.textContent = msg;
+        toast.style.transform = "translateX(-50%) translateY(0)";
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => {
+          toast.style.transform = "translateX(-50%) translateY(120%)";
+        }, 1800);
+      };
+
+      // Add to cart
+      document.querySelectorAll(".menu-cards").forEach((card) => {
+        const btn = card.querySelector(".add-to-cart");
+        if (!btn) return;
+        btn.addEventListener("click", () => {
+          const id = Number(card.dataset.id);
+          const existing = cart.find((i) => i.id === id);
+          if (existing) existing.qty += 1;
+          else
+            cart.push({
+              id,
+              name: card.dataset.name,
+              chef: card.dataset.chef,
+              price: Number(card.dataset.price),
+              emoji: card.dataset.emoji,
+              qty: 1,
+            });
+          saveCart();
+          updateCount();
+          showToast(`Added ${card.dataset.name} to cart`);
+        });
+      });
+
+      // Tag toggle
+      document.querySelectorAll(".sec2-tag").forEach((tag) => {
+        tag.addEventListener("click", () => {
+          document.querySelectorAll(".sec2-tag").forEach((t) => t.classList.remove("active"));
+          tag.classList.add("active");
+        });
+      });
+
+      // Hero CTAs
+      const exploreBtn = document.getElementById("explore-menu");
+      const meetChefsBtn = document.getElementById("meet-chefs");
+      const menuSection = document.querySelector(".sec2-menu-div");
+      exploreBtn?.addEventListener("click", () =>
+        menuSection?.scrollIntoView({ behavior: "smooth" })
+      );
+      meetChefsBtn?.addEventListener("click", () =>
+        showToast("Chef profiles coming soon!")
+      );
+
+      // Claim promo
+      document.querySelector(".red-claim")?.addEventListener("click", () => {
+        navigator.clipboard?.writeText("EMBER30").catch(() => {});
+        showToast("Code EMBER30 copied!");
+      });
     </script>
 </body>
 </html>

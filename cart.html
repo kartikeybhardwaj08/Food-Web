@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart — Ember & Spice</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" type="image/png" href="favicon-es.png" />
+  <style>
+    html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-page {
+  flex: 1;   /* remaining space le lega */
+}
+footer {
+  margin-top: auto;
+  height: fit-content;
+}
+    .cart-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .cart-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .cart-subtitle {
+      color: #adadad94;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .cart-empty .empty-emoji {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .cart-empty h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .cart-empty p {
+      color: #adadad94;
+      margin-bottom: 24px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      background: #C94B00;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(201, 75, 0, 0.4);
+      color: #fff;
+    }
+
+    .cart-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* Cart Items */
+    .cart-items {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cart-item {
+      background: #1a0d05;
+      border: 1px solid #2e1a08;
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s;
+    }
+
+    .cart-item:hover {
+      border-color: #C94B00;
+    }
+
+    .item-emoji {
+      font-size: 40px;
+      width: 60px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .item-chef {
+      font-size: 12px;
+      color: #adadad94;
+      margin-bottom: 8px;
+    }
+
+    .item-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #C94B00;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid #3d1a08;
+      background: #2d1200;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .qty-btn:hover {
+      background: #C94B00;
+      border-color: #C94B00;
+    }
+
+    .qty-num {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .remove-btn {
+      background: transparent;
+      border: none;
+      color: #adadad94;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .remove-btn:hover {
+      color: #ff4444;
+      background: rgba(255, 68, 68, 0.1);
+    }
+
+    /* Order Summary */
+    .order-summary {
+      background: #1a0d05;
+      border: 1px solid #2e1a08;
+      border-radius: 14px;
+      padding: 24px;
+      position: sticky;
+      top: 90px;
+    }
+
+    .summary-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .summary-label {
+      color: #adadad94;
+    }
+
+    .summary-value {
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .summary-divider {
+      border: none;
+      border-top: 1px solid #2e1a08;
+      margin: 16px 0;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .total-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .total-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #C94B00;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 14px;
+      background: #C94B00;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 40px rgba(201, 75, 0, 0.4);
+    }
+
+    .promo-box {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .promo-input {
+      flex: 1;
+      background: #0f0a06;
+      border: 1px solid #2e1a08;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .promo-input:focus {
+      border-color: #C94B00;
+    }
+
+    .promo-btn {
+      background: #2d1200;
+      color: #EF9F27;
+      border: 1px solid #C94B00;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .promo-btn:hover {
+      background: #C94B00;
+      color: #fff;
+    }
+
+    .promo-success {
+      color: #00c853;
+      font-size: 12px;
+      margin-top: 6px;
+      display: none;
+    }
+    footer {
+      height: fit-content;
+    }
+
+    @media (max-width: 768px) {
+      .cart-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .order-summary {
+        position: static;
+      }
+
+      .cart-title {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cursor"></div>
+
+  <header>
+    <a href="/index.html" class="logo heading">Ember<span class="logo__highlight">&</span>Spice</a>
+    <nav>
+      <ul class="featured__list">
+        <li class="featured__item"><a class="featured__link" href="index.html">Menu</a></li>
+        <li class="featured__item"><a class="featured__link" href="#">Chefs</a></li>
+        <li class="featured__item"><a class="featured__link" href="#">Stories</a></li>
+        <li class="featured__item"><a class="featured__link" href="#">Near me</a></li>
+      </ul>
+    </nav>
+    <div class="right-header">
+      <h5 class="address">📍 New Delhi, Delhi</h5>
+      <button class="btn cart" onclick="window.location='/cart.html'">🛒 Cart (<span
+          class="cart-count">0</span>)</button>
+    </div>
+  </header>
+
+  <div class="cart-page">
+    <h1 class="cart-title">Your Cart 🛒</h1>
+    <p class="cart-subtitle" id="cart-subtitle">Loading...</p>
+
+    <div id="empty-state" class="cart-empty" style="display:none;">
+      <div class="empty-emoji">🍽️</div>
+      <h2>Your cart is empty!</h2>
+      <p>Looks like you haven't added anything yet.</p>
+      <a href="/index.html" class="back-btn">Browse Menu</a>
+    </div>
+
+    <div class="cart-grid" id="cart-grid" style="display:none;">
+      <div class="cart-items" id="cart-items"></div>
+      <div class="order-summary">
+        <h2 class="summary-title">Order Summary</h2>
+        <div class="summary-row">
+          <span class="summary-label">Subtotal</span>
+          <span class="summary-value" id="subtotal">₹0</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Delivery fee</span>
+          <span class="summary-value" id="delivery">₹40</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Discount</span>
+          <span class="summary-value" id="discount" style="color:#00c853;">-₹0</span>
+        </div>
+        <hr class="summary-divider" />
+        <div class="summary-total">
+          <span class="total-label">Total</span>
+          <span class="total-value" id="total">₹0</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout →</button>
+        <div class="promo-box">
+          <input class="promo-input" id="promo-input" placeholder="Promo code" type="text" />
+          <button class="promo-btn" onclick="applyPromo()">Apply</button>
+        </div>
+        <p class="promo-success" id="promo-success">✅ EMBER30 applied! 30% off</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-divs heading" id="left-footer">Ember & Spice</div>
+    <div class="footer-divs" id="center-footer">
+      <ul class="footer-links">
+        <li class="footer-link">About</li>
+        <li class="footer-link">Become a Chef</li>
+        <li class="footer-link">Privacy</li>
+        <li class="footer-link">Help</li>
+      </ul>
+    </div>
+    <div class="footer-divs" id="right-footer">© 2026 Ember & Spice Pvt Ltd</div>
+  </footer>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let promoApplied = false;
+
+    const crsr = document.getElementById("cursor");
+    if (crsr) {
+      document.addEventListener("pointermove", (e) => {
+        crsr.style.transform = `translate(${e.clientX + 12.4}px, ${e.clientY + 12.4}px)`;
+      });
+    }
+
+    function saveCart() {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    function updateCartCount() {
+      const total = cart.reduce((s, i) => s + i.qty, 0);
+      document.querySelectorAll(".cart-count").forEach(b => b.textContent = total);
+    }
+
+    function calcSubtotal() {
+      return cart.reduce((s, i) => s + i.price * i.qty, 0);
+    }
+
+    function renderSummary() {
+      const sub = calcSubtotal();
+      const delivery = sub > 0 ? 40 : 0;
+      const disc = promoApplied ? Math.round(sub * 0.3) : 0;
+      const total = sub + delivery - disc;
+      document.getElementById("subtotal").textContent = `₹${sub}`;
+      document.getElementById("delivery").textContent = `₹${delivery}`;
+      document.getElementById("discount").textContent = `-₹${disc}`;
+      document.getElementById("total").textContent = `₹${total}`;
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+      saveCart();
+      renderCart();
+    }
+
+    function removeItem(id) {
+      cart = cart.filter(i => i.id !== id);
+      saveCart();
+      renderCart();
+    }
+
+    function renderCart() {
+      updateCartCount();
+      const container = document.getElementById("cart-items");
+      const empty = document.getElementById("empty-state");
+      const grid = document.getElementById("cart-grid");
+      const subtitle = document.getElementById("cart-subtitle");
+
+      if (cart.length === 0) {
+        empty.style.display = "block";
+        grid.style.display = "none";
+        subtitle.textContent = "Add some delicious food!";
+        return;
+      }
+
+      empty.style.display = "none";
+      grid.style.display = "grid";
+      subtitle.textContent = `${cart.reduce((s, i) => s + i.qty, 0)} items in your cart`;
+
+      container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="item-emoji">${item.emoji}</div>
+          <div class="item-info">
+            <p class="item-name">${item.name}</p>
+            <p class="item-chef">${item.chef}</p>
+            <p class="item-price">₹${item.price} × ${item.qty} = ₹${item.price * item.qty}</p>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+              <span class="qty-num">${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+            </div>
+          </div>
+          <button class="remove-btn" onclick="removeItem(${item.id})">🗑️</button>
+        </div>
+      `).join("");
+
+      renderSummary();
+    }
+
+    function applyPromo() {
+      const code = document.getElementById("promo-input").value.trim().toUpperCase();
+      const success = document.getElementById("promo-success");
+      if (code === "EMBER30") {
+        promoApplied = true;
+        success.style.display = "block";
+        renderSummary();
+      } else {
+        alert("Invalid promo code!");
+      }
+    }
+
+    function checkout() {
+      if (cart.length === 0) return;
+      alert("🎉 Order placed successfully!\n\nThank you for ordering from Ember & Spice!\nYour food will arrive in 30 minutes.");
+      cart = [];
+      saveCart();
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+
+</html>
