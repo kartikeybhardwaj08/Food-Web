@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon-es.png"/>
+    <title>Food website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+</head>
+<body>
+    <div id="cursor"></div>
+    <header>
+        <h1 class="logo heading">
+            Ember<span class="logo__highlight">&</span>Spice
+        </h1>
+        <nav>
+            <ul class="featured__list">
+                <li class="featured__item">
+                    <a class="featured__link" href="#">Menu</a>
+                </li>
+                <li class="featured__item">
+                    <a class="featured__link" href="#">Chefs</a>
+                </li>
+                <li class="featured__item">
+                    <a class="featured__link" href="#">Stories</a>
+                </li>
+                <li class="featured__item">
+                    <a class="featured__link" href="#">Near me</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Hamburger Button (only on mobile) -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <ul class="mobile-links">
+                <li><a href="#">Menu</a></li>
+                <li><a href="#">Chefs</a></li>
+                <li><a href="#">Stories</a></li>
+                <li><a href="#">Near me</a></li>
+            </ul>
+        </div>
+        
+        <div class="right-header">
+            <h5 class="address">📍 New Delhi, Delhi</h5>
+            <button class="btn cart">🛒 Cart (2)</button>
+        </div>
+    </header>
+
+    <!-- for section 1 hero section -->
+    <section class="hero">
+        <div class="hero-divs" id="hero-div-1">
+            <div class="hero-div1-main">
+                <h4 class="hero-div1-tag">🔥 CRAFTED OVER OPEN FLAME</h4>
+            <h1 class="hero-div1-heading heading">
+                Food that tells<br>
+                <span>
+                    a story.
+                </span>
+            </h1>
+            <p class="hero-div1-para">
+                Every dish is made by a local chef with a heritage<br>
+                recipe. No cloud kitchens. No Shortcuts. Just real<br>
+                food, real stories.
+            </p>
+            <div class="hero-div1-btns">
+                <button class="hero-btn" id="explore-menu">
+                    Explore Menu
+                </button>
+                <button class="hero-btn" id="meet-chefs">
+                    Meet the chefs 
+                    <i class="ti ti-arrow-right"></i>
+                </button>
+            </div>
+            </div>
+        </div>
+        <div class="hero-divs" id="hero-div-2">
+            <div class="hero-rating">
+                ⭐ 4.9 - Chef's pick
+            </div>
+            <div class="hero-pic">
+                🍲
+            </div>            
+            <div class="devliry-time">
+                <i class="ti ti-clock"></i><span>30 min delivery</span>
+            </div>
+            <div class="total-chefs">
+                <h2 style="margin: 0;">150+</h2>
+                <span style="text-transform: lowercase;">Local chefs</span>
+            </div>
+        </div>
+    </section>
+    <section class="sec2">
+        <div class="sec2-tag-div">
+            <h4 class="sec2-tag-heading">
+                BROWSE BY CRAVING
+            </h4>
+            <div class="sec2-tags">
+                <div class="sec2-tag active" id="sec2-tag1">🍛 North Indian</div>
+                <div class="sec2-tag" id="sec2-tag2">🍜 Street food</div>
+                <div class="sec2-tag" id="sec2-tag3">
+                    <i class="ti ti-shopping-cart"> hi</i>Slow-cooked
+                </div>
+                <div class="sec2-tag" id="sec2-tag4">🍱 Thali</div>
+                <div class="sec2-tag" id="sec2-tag5">🥘 Coastal</div>
+                <div class="sec2-tag" id="sec2-tag6">🍡 Desserts</div>
+                <div class="sec2-tag" id="sec2-tag7">🧃 Drinks</div>
+            </div>
+            <div class="reedem">
+                <div class="reedem-box" id="reedem-code-div">
+                    <div class="reedem-emoji">🎁</div>
+                    <div class="reedem-code">
+                        <p class="reedem-para">First Order? Use Code</p>
+                        <h1 class="redcode">EMBER03 - 30% off</h1>
+                    </div>
+                </div>
+                <button class="red-claim">Claim now</button>
+            </div>
+        </div>
+        <div class="sec2-menu-div">
+            <div class="menu-div-top">
+                <h2 class="heading menu-heading">Chef's specails today</h2>
+                <a href="#" class="menu-see-all">See all <i class="ti ti-arrow-right"></i></a>
+            </div>
+            <div class="menu-div-bottom">
+                <div class="menu-cards">
+                    <div class="menu-card-img" id="menu-card-img-1">🍱</div>
+                    <div class="menu-card-tag">Best Saller</div>
+                    <div class="card-bottom-container">
+                        <h5 class="chefs-name">CHEFS ARIF • KASJMIRI</h5>
+                    <h2 class="dish-name">Rogan Josh</h2>
+                    <p class="about-dish">
+                        Slow-cooked 4 hours in authentic Kashmiri spices. A heritage<br>
+                        recipe passed down 3 generations.                                    
+                    </p>
+                    <div class="card-bottom">
+                        <div class="menu-card-bottom-right">
+                            <h1 class="dish-price">₹380</h1>
+                            <p class="dish-rating"><span>⭐</span> 4.9 • 212 orders</p>
+                        </div>
+                        <button class="add-to-cart"><i class="ti ti-plus">hi </i>Add</button>
+                    </div>
+                    </div>
+                </div>
+                <div class="menu-cards">
+                    <div class="menu-card-img" id="menu-card-img-2">🍤</div>
+                    <div class="menu-card-tag">Heritage</div>
+                    <div class="card-bottom-container">
+                        <h5 class="chefs-name">CHEFS MEERA • RAJASTHANI</h5>
+                    <h2 class="dish-name">Dal Baati Churma</h2>
+                    <p class="about-dish">
+                        Wood-fried baati with panchmel dal and churma. Made fresh<br>
+                        every morning in a traditional chulha.
+                    </p>
+                    <div class="card-bottom">
+                        <div class="menu-card-bottom-right">
+                            <h1 class="dish-price">₹290</h1>
+                            <p class="dish-rating"><span>⭐</span> 4.8 • 189 orders</p>
+                        </div>
+                        <button class="add-to-cart"><i class="ti ti-plus">hi </i>Add</button>
+                    </div>
+                    </div>
+                </div>
+                <div class="menu-cards">
+                    <div class="menu-card-img" id="menu-card-img-3">🍲</div>
+                    <div class="menu-card-tag">Fresh Catch</div>
+                    <div class="card-bottom-container">
+                        <h5 class="chefs-name">CHEFS DEEPAK • COASTAL</h5>
+                    <h2 class="dish-name">Koliwada Prawns</h2>
+                    <p class="about-dish">
+                        Crispy Maharashtrian-style prawns eith a tangy kouum chutney.<br>
+                        Fresh catch sourced daily from INA market.
+                    </p>
+                        
+                    <div class="card-bottom">
+                        <div class="menu-card-bottom-right">
+                            <h1 class="dish-price">₹460</h1>
+                            <p class="dish-rating"><span>⭐</span> 4.7 • 143 orders</p>
+                        </div>
+                        <button class="add-to-cart"><i class="ti ti-plus">hi </i>Add</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- for footer -->
+     <footer>
+         <div class="footer-divs heading" id="left-footer">
+            Ember & Spice
+        </div>
+         <div class="footer-divs" id="center-footer">
+            <ul class="footer-links">
+                <li class="footer-link">About</li>
+                <li class="footer-link">Become a Chef</li>
+                <li class="footer-link">Privacy</li>
+                <li class="footer-link">Help</li>
+            </ul>
+         </div>
+         <div class="footer-divs" id="right-footer">
+            © 2026 Ember & Spice Pvt Ltd
+         </div>
+     </footer>
+
+    <script>
+        const crsr = document.getElementById("cursor");
+
+document.addEventListener("pointermove", (e) => {
+  crsr.style.transform = `translate(${e.clientX+12.4}px, ${e.clientY+12.4}px)`;
+});
+
+// Hamburger Menu
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobile-menu");
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("open");
+  mobileMenu.classList.toggle("open");
+});
+    </script>
+</body>
+</html>
