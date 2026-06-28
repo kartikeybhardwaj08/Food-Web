@@ -10,7 +10,7 @@ A beautifully designed food delivery website built with pure **HTML, CSS, and Ja
 ember-and-spice/
 │
 ├── cart.html        → Cart Page
-├── favicon-es.png        → Ember&Spice logo
+├── favicon-es.png   → Ember&Spice logo
 ├── index.html       → Main HTML file
 ├── style.css        → All styles + responsive design
 └── README.md        → You are here!
