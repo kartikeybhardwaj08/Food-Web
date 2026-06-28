@@ -425,6 +425,7 @@ nav {
     border: 1px solid #2e1a08;
     width: 550px;
     height: 474px;
+    max-height: fit-content;
     border-radius: 10px;
     overflow: hidden;
     position: relative;
